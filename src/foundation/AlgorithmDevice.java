@@ -54,7 +54,7 @@ public class AlgorithmDevice {
 			}*/
 			
 			Arrays.sort(arr1);
-			QuickSort.quickSort2(arr2);
+			RadixSort.radix(arr2);
 			
 			//验证数组是否完全相等
 			if(!validate(arr1, arr2)) {

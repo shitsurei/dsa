@@ -1,7 +1,7 @@
 package foundation;
 
 public class FoundSort {
-	public static enum Sort {BUBBLE,SELECT,INSERT};
+	public enum Sort {BUBBLE,SELECT,INSERT};
 	public static void main(String[] args) {
 		int[] arr = {1,5,3,2,7,4,6,3};
 		sort(arr,Sort.SELECT);

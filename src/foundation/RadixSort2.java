@@ -23,6 +23,9 @@ public class RadixSort2 {
         }
     }
 
+    /**
+     * 桶集合
+     */
     public static class Buckets {
         Elem[] heads;
         Elem[] tails;

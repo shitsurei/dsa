@@ -13,7 +13,7 @@ package foundation;
 public class BucketSort {
 
     public static void main(String[] args) {
-        int[] arr = {1, 4, 2, 6, 33, 15};
+        int[] arr = {1, 2, 6, 15, 3, 7};
         System.out.println(maxMinus(arr, arr.length));
     }
 

@@ -8,17 +8,11 @@
 public class PrefixTree {
 	public static void main(String[] args) {
 		Node head = new Node();
-		head.insert("ab");
-		head.insert("abcd");
+		head.insert("a");
 		head.insert("abc");
-		head.insert("bcd");
-		head.insert("bd");
 		System.out.println(head.isInsert("ab"));
-		System.out.println(head.isInsert("b"));
-		System.out.println(head.isPrefix("a"));
-		System.out.println(head.isPrefix("c"));
-		System.out.println(head.prefixWith("a"));
-		System.out.println(head.prefixWith("c"));
+//		System.out.println(head.isPrefix("a"));
+//		System.out.println(head.prefixWith("a"));
 	}
 
 	/**

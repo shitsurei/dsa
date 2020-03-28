@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/classic/classic.iml" filepath="$PROJECT_DIR$/classic/classic.iml" />
       <module fileurl="file://$PROJECT_DIR$/dsa.iml" filepath="$PROJECT_DIR$/dsa.iml" />
       <module fileurl="file://$PROJECT_DIR$/dynamicProgramming/dynamicProgramming.iml" filepath="$PROJECT_DIR$/dynamicProgramming/dynamicProgramming.iml" />
+      <module fileurl="file://$PROJECT_DIR$/graph/graph.iml" filepath="$PROJECT_DIR$/graph/graph.iml" />
       <module fileurl="file://$PROJECT_DIR$/greedy/greedy.iml" filepath="$PROJECT_DIR$/greedy/greedy.iml" />
       <module fileurl="file://$PROJECT_DIR$/hash/hash.iml" filepath="$PROJECT_DIR$/hash/hash.iml" />
       <module fileurl="file://$PROJECT_DIR$/linklist/linklist.iml" filepath="$PROJECT_DIR$/linklist/linklist.iml" />

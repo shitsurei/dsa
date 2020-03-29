@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/bit/bit.iml" filepath="$PROJECT_DIR$/bit/bit.iml" />
       <module fileurl="file://$PROJECT_DIR$/classic/classic.iml" filepath="$PROJECT_DIR$/classic/classic.iml" />
       <module fileurl="file://$PROJECT_DIR$/dsa.iml" filepath="$PROJECT_DIR$/dsa.iml" />
       <module fileurl="file://$PROJECT_DIR$/dynamicProgramming/dynamicProgramming.iml" filepath="$PROJECT_DIR$/dynamicProgramming/dynamicProgramming.iml" />

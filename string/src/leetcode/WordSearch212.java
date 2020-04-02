@@ -36,17 +36,25 @@ public class WordSearch212 {
         String[] words = new String[]{"ab", "cb", "ad", "bd", "ac", "ca", "da", "bc", "db", "adcb", "dabc", "abb", "acb"};
     }
 
+    /**
+     * 本题的关键在于利用前缀树的特点在回溯的过程中进行剪枝操作
+     * @param board
+     * @param words
+     * @return
+     */
     public List<String> findWords(char[][] board, String[] words) {
         Trie trie = new Trie();
+//        创建字典树
         for (String e : words)
             trie.insert(e);
         int height = board.length, width = board[0].length;
+//        创建回溯数组，记录当前位置的字符是否已经在本次字符中append过
         boolean[][] used = new boolean[height][width];
+//        可能出现检索到的单词重复，使用hash表去重
         Set<String> temp = new HashSet<>();
-        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                dfs2(board, used, height, width, i, j, temp, sb, trie);
+                dfs2(board, used, height, width, i, j, temp, new StringBuilder(), trie);
             }
         }
         return new LinkedList<>(temp);
@@ -75,12 +83,15 @@ public class WordSearch212 {
 
     public void dfs2(char[][] board, boolean[][] used, int height, int width, int x, int y,
                      Set<String> temp, StringBuilder sb, Trie trie) {
+//        回溯的终止条件，数组越界或字符已使用
         if (x < 0 || y < 0 || x >= height || y >= width || used[x][y])
             return;
         String pre = sb.append(board[x][y]).toString();
+//        这里通过传递前缀树节点而非字符串进行字典树检索可以将每次检索的时间控制在O(1)内，下面的剪枝判断同理
         if (trie.search2(trie, board[x][y] - 'a')) {
             temp.add(pre);
         }
+//        剪枝操作：如果当前字符串不为某个单词的前缀，直接停止搜索
         if (!trie.isPre2(trie, board[x][y] - 'a')) {
             sb.deleteCharAt(sb.length() - 1);
             return;

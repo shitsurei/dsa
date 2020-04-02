@@ -1,3 +1,5 @@
+package LeetCode;
+
 import java.util.PriorityQueue;
 
 /**

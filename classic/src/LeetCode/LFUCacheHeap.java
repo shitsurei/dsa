@@ -27,23 +27,23 @@ import java.util.Map;
  * cache.get(3);       // 返回 3
  * cache.get(4);       // 返回 4
  */
-public class LFUCache {
+public class LFUCacheHeap {
     public static void main(String[] args) {
-        LFUCache lfuCache = new LFUCache(3);
-        lfuCache.put(1, 1);
-        lfuCache.put(2, 2);
-        lfuCache.put(3, 3);
-        lfuCache.put(4, 4);
-        System.out.println(lfuCache.get(4));
-        System.out.println(lfuCache.get(3));
-        System.out.println(lfuCache.get(2));
-        System.out.println(lfuCache.get(1));
-        lfuCache.put(5, 5);
-        System.out.println(lfuCache.get(1));
-        System.out.println(lfuCache.get(2));
-        System.out.println(lfuCache.get(3));
-        System.out.println(lfuCache.get(4));
-        System.out.println(lfuCache.get(5));
+        LFUCacheHeap lfuCacheHeap = new LFUCacheHeap(3);
+        lfuCacheHeap.put(1, 1);
+        lfuCacheHeap.put(2, 2);
+        lfuCacheHeap.put(3, 3);
+        lfuCacheHeap.put(4, 4);
+        System.out.println(lfuCacheHeap.get(4));
+        System.out.println(lfuCacheHeap.get(3));
+        System.out.println(lfuCacheHeap.get(2));
+        System.out.println(lfuCacheHeap.get(1));
+        lfuCacheHeap.put(5, 5);
+        System.out.println(lfuCacheHeap.get(1));
+        System.out.println(lfuCacheHeap.get(2));
+        System.out.println(lfuCacheHeap.get(3));
+        System.out.println(lfuCacheHeap.get(4));
+        System.out.println(lfuCacheHeap.get(5));
     }
 
     private class Node {
@@ -63,7 +63,7 @@ public class LFUCache {
     private int len;
     private Map<Integer, Node> hash;
 
-    public LFUCache(int capacity) {
+    public LFUCacheHeap(int capacity) {
         this.heap = new Node[capacity];
         this.len = 0;
         this.hash = new HashMap<>();

@@ -46,6 +46,11 @@ public class RotateMatrix {
         new RotateMatrix().rotate(matrix);
     }
 
+    /**
+     * 顺时针旋转矩阵,即求矩阵的转置
+     * 思路1:从外到内分层,每层一个循环,循环中间的元素通过下标变化转一圈
+     * 思路2:先按照左上右下对角线为轴交换对应位置元素,再按列为轴交换元素
+     */
     public void rotate(int[][] matrix) {
         if (matrix.length < 2)
             return;

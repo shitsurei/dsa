@@ -4,14 +4,14 @@ import DroneCrossPhotograph.drone.IDrone;
 
 import java.util.List;
 
-public class SPath extends AirPath {
+public class SpinPathStrategy extends AirPath {
 
-    public SPath(IDrone drone) {
+    public SpinPathStrategy(IDrone drone) {
         super(drone);
     }
 
     @Override
-    public int[] route() {
+    public int route() {
         int m = drone.getMap().length, n = drone.getMap()[0].length;
         int startX = (m - 1) / 2 - 1, startY = (n - 1) / 2;
         startX = startX < 0 ? 0 : startX;
@@ -23,7 +23,7 @@ public class SPath extends AirPath {
         int nextX = startX, nextY = startY;
         a:
         while (restAll > 0) {
-            restAll -= drone.shoot();
+            restAll -= drone.shoot(true);
             if (restAll == 0)
                 break;
             int tempIndex = nextIndex(index++);
@@ -36,12 +36,12 @@ public class SPath extends AirPath {
                 if (nextX <= -1 && nextY <= -1)
                     break a;
             }
-            drone.move(nextX, nextY);
+            drone.move(nextX, nextY, true);
         }
         if (restAll > 0)
             finishCycle(drone, m, n);
-        drone.returnStart();
-        return new int[]{drone.getSumFeet(), drone.getSumRegion()};
+        drone.returnStart(true);
+        return drone.getSumFeet();
     }
 
     @Override
@@ -72,11 +72,11 @@ public class SPath extends AirPath {
                 if (nextX <= -1 && nextY <= -1)
                     break a;
             }
-            drone.move(nextX, nextY);
+            drone.move(nextX, nextY, false);
         }
         if (restAll > 0)
-            finishCycleDraw(drone, map, drone.getData().get(dataIndex++).toCharArray());
-        drone.returnStart();
+            finishCycleDraw(drone, map, drone.getData(), dataIndex);
+        drone.returnStart(false);
         return map;
     }
 
@@ -106,29 +106,28 @@ public class SPath extends AirPath {
      */
     private void finishCycle(IDrone drone, int m, int n) {
         int curX = drone.getCurX(), curY = drone.getCurY();
+        int[] xCorner = {0, 0, m - 1, m - 1};
+        int[] yCorner = {0, n - 1, n - 1, 0};
+        int[] order;
         if (curX == 0) {
-            drone.check(0, n - 1);
-            drone.check(m - 1, n - 1);
-            drone.check(m - 1, 0);
-            drone.check(0, 0);
+            order = new int[]{1, 2, 3, 0};
+            for (int i = 0; i < 4; i++)
+                drone.check(xCorner[order[i]], yCorner[order[i]]);
             drone.check(0, curY);
         } else if (curX == m - 1) {
-            drone.check(m - 1, 0);
-            drone.check(0, 0);
-            drone.check(0, n - 1);
-            drone.check(m - 1, n - 1);
+            order = new int[]{3, 0, 1, 2};
+            for (int i = 0; i < 4; i++)
+                drone.check(xCorner[order[i]], yCorner[order[i]]);
             drone.check(m - 1, curY);
         } else if (curY == 0) {
-            drone.check(0, 0);
-            drone.check(0, n - 1);
-            drone.check(m - 1, n - 1);
-            drone.check(m - 1, 0);
+            order = new int[]{0, 1, 2, 3};
+            for (int i = 0; i < 4; i++)
+                drone.check(xCorner[order[i]], yCorner[order[i]]);
             drone.check(curX, 0);
         } else if (curY == n - 1) {
-            drone.check(m - 1, n - 1);
-            drone.check(m - 1, 0);
-            drone.check(0, 0);
-            drone.check(0, n - 1);
+            order = new int[]{2, 3, 0, 1};
+            for (int i = 0; i < 4; i++)
+                drone.check(xCorner[order[i]], yCorner[order[i]]);
             drone.check(curX, n - 1);
         }
     }
@@ -138,35 +137,47 @@ public class SPath extends AirPath {
      *
      * @param drone
      * @param map
-     * @param message
+     * @param data
+     * @param index
      */
-    private void finishCycleDraw(IDrone drone, char[][] map, char[] message) {
+    private void finishCycleDraw(IDrone drone, char[][] map, List<String> data, int index) {
         int m = map.length, n = map[0].length;
         int curX = drone.getCurX(), curY = drone.getCurY();
+        int[] xCorner = {0, 0, m - 1, m - 1};
+        int[] yCorner = {0, n - 1, n - 1, 0};
+        int[] order;
         if (curX == 0) {
-            drone.checkDraw(0, n - 1, map, message);
-            drone.checkDraw(m - 1, n - 1, map, message);
-            drone.checkDraw(m - 1, 0, map, message);
-            drone.checkDraw(0, 0, map, message);
-            drone.checkDraw(0, curY, map, message);
+            order = new int[]{1, 2, 3, 0};
+            for (int i = 0; i < 4; i++) {
+                drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                if (index == data.size())
+                    return;
+            }
+            drone.checkDraw(0, curY, map, data.get(index++).toCharArray());
         } else if (curX == m - 1) {
-            drone.checkDraw(m - 1, 0, map, message);
-            drone.checkDraw(0, 0, map, message);
-            drone.checkDraw(0, n - 1, map, message);
-            drone.checkDraw(m - 1, n - 1, map, message);
-            drone.checkDraw(m - 1, curY, map, message);
+            order = new int[]{3, 0, 1, 2};
+            for (int i = 0; i < 4; i++) {
+                drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                if (index == data.size())
+                    return;
+            }
+            drone.checkDraw(m - 1, curY, map, data.get(index++).toCharArray());
         } else if (curY == 0) {
-            drone.checkDraw(0, 0, map, message);
-            drone.checkDraw(0, n - 1, map, message);
-            drone.checkDraw(m - 1, n - 1, map, message);
-            drone.checkDraw(m - 1, 0, map, message);
-            drone.checkDraw(curX, 0, map, message);
+            order = new int[]{0, 1, 2, 3};
+            for (int i = 0; i < 4; i++) {
+                drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                if (index == data.size())
+                    return;
+            }
+            drone.checkDraw(curX, 0, map, data.get(index++).toCharArray());
         } else if (curY == n - 1) {
-            drone.checkDraw(m - 1, n - 1, map, message);
-            drone.checkDraw(m - 1, 0, map, message);
-            drone.checkDraw(0, 0, map, message);
-            drone.checkDraw(0, n - 1, map, message);
-            drone.checkDraw(curX, n - 1, map, message);
+            order = new int[]{2, 3, 0, 1};
+            for (int i = 0; i < 4; i++) {
+                drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                if (index == data.size())
+                    return;
+            }
+            drone.checkDraw(curX, n - 1, map, data.get(index++).toCharArray());
         }
     }
 }

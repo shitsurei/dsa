@@ -27,7 +27,7 @@ public interface IDrone {
      * @param y
      * @return
      */
-    int move(int x, int y);
+    int move(int x, int y, boolean print);
 
     /**
      * let drone move to (x,y) from current point
@@ -56,7 +56,7 @@ public interface IDrone {
      *
      * @return
      */
-    int shoot();
+    int shoot(boolean print);
 
     /**
      * draw the region message by data on current position
@@ -67,13 +67,5 @@ public interface IDrone {
     /**
      * let drone return start location
      */
-    void returnStart();
-
-    /**
-     * output message about move and shoot
-     *
-     * @param moveType
-     * @param param
-     */
-    void print(MoveType moveType, Integer... param);
+    void returnStart(boolean print);
 }

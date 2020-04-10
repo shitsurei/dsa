@@ -18,7 +18,7 @@ public abstract class AirPath {
      *
      * @return
      */
-    public abstract int[] route();
+    public abstract int route();
 
     /**
      * recover a map by data

@@ -11,13 +11,24 @@ public interface IDrone {
 
     int getSumFeet();
 
-    void setData(List<String> data, int m, int n);
-
     List<String> getData();
 
     char[][] getMap();
 
+    /**
+     * init drone start location
+     * @param startX
+     * @param startY
+     */
     void init(int startX, int startY);
+
+    /**
+     * let exist map data input drone
+     * @param data
+     * @param m
+     * @param n
+     */
+    void inputData(List<String> data, int m, int n);
 
     /**
      * let drone move to (x,y) from current point
@@ -48,7 +59,7 @@ public interface IDrone {
      * @param map
      * @param message
      */
-    void checkDraw(int x, int y, char[][] map, char[] message);
+    int checkDraw(int x, int y, char[][] map, char[] message);
 
     /**
      * take photo at current position

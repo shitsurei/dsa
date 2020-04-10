@@ -54,7 +54,7 @@ public class Drone implements IDrone {
     }
 
     @Override
-    public void setData(List<String> data, int m, int n) {
+    public void inputData(List<String> data, int m, int n) {
         this.data = data;
         this.visited = new boolean[m][n];
     }
@@ -130,33 +130,43 @@ public class Drone implements IDrone {
     }
 
     @Override
-    public void checkDraw(int x, int y, char[][] map, char[] message) {
+    public int checkDraw(int x, int y, char[][] map, char[] message) {
+        int drawRegion = 0;
         if (x > this.curX) {
             for (int i = this.curX + 1; i <= x; i++) {
                 move(i, this.curY, false);
-                if (!visited[curX][curY])
+                if (!visited[curX][curY]) {
                     draw(map, message);
+                    drawRegion++;
+                }
             }
         } else if (x < this.curX) {
             for (int i = this.curX - 1; i >= x; i--) {
                 move(i, this.curY, false);
-                if (!visited[curX][curY])
+                if (!visited[curX][curY]) {
                     draw(map, message);
+                    drawRegion++;
+                }
             }
         }
         if (y > this.curY) {
             for (int i = this.curY + 1; i <= y; i++) {
                 move(this.curX, i, false);
-                if (!visited[curX][curY])
+                if (!visited[curX][curY]) {
                     draw(map, message);
+                    drawRegion++;
+                }
             }
         } else if (y < this.curY) {
             for (int i = this.curY - 1; i >= y; i--) {
                 move(this.curX, i, false);
-                if (!visited[curX][curY])
+                if (!visited[curX][curY]) {
                     draw(map, message);
+                    drawRegion++;
+                }
             }
         }
+        return drawRegion;
     }
 
     @Override

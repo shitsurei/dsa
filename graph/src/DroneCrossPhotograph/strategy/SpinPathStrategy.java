@@ -4,7 +4,7 @@ import DroneCrossPhotograph.drone.IDrone;
 
 import java.util.List;
 
-public class SpinPathStrategy extends AirPath {
+public class SpinPathStrategy extends PathStrategy {
 
     public SpinPathStrategy(IDrone drone) {
         super(drone);
@@ -47,7 +47,7 @@ public class SpinPathStrategy extends AirPath {
     @Override
     public char[][] draw(List<String> data, int m, int n) {
         int dataIndex = 0;
-        this.drone.setData(data, m, n);
+        this.drone.inputData(data, m, n);
         char[][] map = new char[m][n];
         int startX = (m - 1) / 2 - 1, startY = (n - 1) / 2;
         startX = startX < 0 ? 0 : startX;
@@ -105,6 +105,7 @@ public class SpinPathStrategy extends AirPath {
      * @param n
      */
     private void finishCycle(IDrone drone, int m, int n) {
+        patch(drone, m, n);
         int curX = drone.getCurX(), curY = drone.getCurY();
         int[] xCorner = {0, 0, m - 1, m - 1};
         int[] yCorner = {0, n - 1, n - 1, 0};
@@ -142,6 +143,7 @@ public class SpinPathStrategy extends AirPath {
      */
     private void finishCycleDraw(IDrone drone, char[][] map, List<String> data, int index) {
         int m = map.length, n = map[0].length;
+        patch(drone, m, n);
         int curX = drone.getCurX(), curY = drone.getCurY();
         int[] xCorner = {0, 0, m - 1, m - 1};
         int[] yCorner = {0, n - 1, n - 1, 0};
@@ -149,7 +151,9 @@ public class SpinPathStrategy extends AirPath {
         if (curX == 0) {
             order = new int[]{1, 2, 3, 0};
             for (int i = 0; i < 4; i++) {
-                drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                int drawRgion = drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                if (drawRgion == 0)
+                    index--;
                 if (index == data.size())
                     return;
             }
@@ -157,7 +161,9 @@ public class SpinPathStrategy extends AirPath {
         } else if (curX == m - 1) {
             order = new int[]{3, 0, 1, 2};
             for (int i = 0; i < 4; i++) {
-                drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                int drawRgion = drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                if (drawRgion == 0)
+                    index--;
                 if (index == data.size())
                     return;
             }
@@ -165,7 +171,9 @@ public class SpinPathStrategy extends AirPath {
         } else if (curY == 0) {
             order = new int[]{0, 1, 2, 3};
             for (int i = 0; i < 4; i++) {
-                drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                int drawRgion = drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                if (drawRgion == 0)
+                    index--;
                 if (index == data.size())
                     return;
             }
@@ -173,11 +181,27 @@ public class SpinPathStrategy extends AirPath {
         } else if (curY == n - 1) {
             order = new int[]{2, 3, 0, 1};
             for (int i = 0; i < 4; i++) {
-                drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                int drawRgion = drone.checkDraw(xCorner[order[i]], yCorner[order[i]], map, data.get(index++).toCharArray());
+                if (drawRgion == 0)
+                    index--;
                 if (index == data.size())
                     return;
             }
             drone.checkDraw(curX, n - 1, map, data.get(index++).toCharArray());
+        }
+    }
+
+    private void patch(IDrone drone, int m, int n) {
+        int curX = drone.getCurX(), curY = drone.getCurY();
+        if (curX != 0 && curX != m - 1 && curY != 0 && curY != n - 1) {
+            if (curX - 1 == 0) {
+                drone.move(0, curY, false);
+            } else if (curX + 1 == m - 1) {
+                drone.move(m - 1, curY, false);
+            } else if (curY - 1 == 0) {
+                drone.move(curX, 0, false);
+            } else if (curY + 1 == n - 1)
+                drone.move(curX, n - 1, false);
         }
     }
 }

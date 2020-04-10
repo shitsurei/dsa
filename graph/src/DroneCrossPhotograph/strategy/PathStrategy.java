@@ -4,10 +4,10 @@ import DroneCrossPhotograph.drone.IDrone;
 
 import java.util.List;
 
-public abstract class AirPath {
+public abstract class PathStrategy {
     protected IDrone drone;
 
-    public AirPath(IDrone drone) {
+    public PathStrategy(IDrone drone) {
         this.drone = drone;
     }
 

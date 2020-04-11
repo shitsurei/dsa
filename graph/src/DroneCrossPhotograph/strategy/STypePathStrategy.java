@@ -5,9 +5,6 @@ import DroneCrossPhotograph.drone.IDrone;
 import java.util.List;
 
 public class STypePathStrategy extends PathStrategy {
-    public STypePathStrategy(IDrone drone) {
-        super(drone);
-    }
 
     @Override
     public int route() {

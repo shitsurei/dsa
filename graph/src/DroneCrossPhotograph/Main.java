@@ -3,12 +3,10 @@ package DroneCrossPhotograph;
 import DroneCrossPhotograph.drone.Drone;
 import DroneCrossPhotograph.drone.IDrone;
 import DroneCrossPhotograph.strategy.PathStrategy;
-import DroneCrossPhotograph.strategy.STypePathStrategy;
-import DroneCrossPhotograph.strategy.SpinPathStrategy;
+import DroneCrossPhotograph.strategy.StrategyFactory;
 import DroneCrossPhotograph.util.IOUtil;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,7 +23,8 @@ public class Main {
 //                {'G', 'F', 'G', 'F', 'F'},
 //                {'G', 'F', 'F', 'G', 'R'},
 //        };
-        testSTypePath(map);
+        testMinMovePath(map);
+//        testSTypePath(map);
 //        testSpinPath(map);
     }
 
@@ -36,7 +35,10 @@ public class Main {
      */
     public static void testSpinPath(char[][] map) {
         IDrone drone = new Drone(map);
-        PathStrategy pathStrategy = new SpinPathStrategy(drone);
+        StrategyFactory factory = StrategyFactory.getInstance();
+        PathStrategy pathStrategy = factory.getStrategy(StrategyFactory.Strategy.SPIN);
+        pathStrategy.setDrone(drone);
+
         int ans = pathStrategy.route();
         IOUtil.outPutMessage(String.format("task finished , use %d feet , shoot %d times", ans, drone.getData().size()), IOUtil.MessageType.INFO);
 //        List<String> data = drone.getData();
@@ -58,7 +60,35 @@ public class Main {
      */
     public static void testSTypePath(char[][] map) {
         IDrone drone = new Drone(map);
-        PathStrategy pathStrategy = new STypePathStrategy(drone);
+        StrategyFactory factory = StrategyFactory.getInstance();
+        PathStrategy pathStrategy = factory.getStrategy(StrategyFactory.Strategy.S_TYPE);
+        pathStrategy.setDrone(drone);
+
+        int ans = pathStrategy.route();
+        IOUtil.outPutMessage(String.format("task finished , use %d feet , shoot %d times", ans, drone.getData().size()), IOUtil.MessageType.INFO);
+//        List<String> data = drone.getData();
+//        pathStrategy = new SpinPathStrategy(new Drone());
+//        char[][] recoverMap = pathStrategy.draw(data, map.length, map[0].length);
+//        for (int i = 0; i < map.length; i++) {
+//            for (int j = 0; j < map[0].length; j++) {
+//                System.out.print(recoverMap[i][j]);
+//                System.out.print('\t');
+//            }
+//            System.out.println();
+//        }
+    }
+
+    /**
+     * test min move plan
+     *
+     * @param map
+     */
+    public static void testMinMovePath(char[][] map) {
+        IDrone drone = new Drone(map);
+        StrategyFactory factory = StrategyFactory.getInstance();
+        PathStrategy pathStrategy = factory.getStrategy(StrategyFactory.Strategy.MIN_MOVE);
+        pathStrategy.setDrone(drone);
+
         int ans = pathStrategy.route();
         IOUtil.outPutMessage(String.format("task finished , use %d feet , shoot %d times", ans, drone.getData().size()), IOUtil.MessageType.INFO);
 //        List<String> data = drone.getData();

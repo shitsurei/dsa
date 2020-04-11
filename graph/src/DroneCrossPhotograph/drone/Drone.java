@@ -16,7 +16,7 @@ public class Drone implements IDrone {
     private int startY;
     private int sumRegion;
     private int sumFeet;
-    private boolean[][] visited;
+    private boolean[][] collected;
     private char[][] map;
     private List<String> data;
 
@@ -29,7 +29,7 @@ public class Drone implements IDrone {
         this.sumRegion = 0;
         this.sumFeet = 0;
         this.map = map;
-        this.visited = new boolean[map.length][map[0].length];
+        this.collected = new boolean[map.length][map[0].length];
         this.data = new LinkedList<>();
     }
 
@@ -56,7 +56,7 @@ public class Drone implements IDrone {
     @Override
     public void inputData(List<String> data, int m, int n) {
         this.data = data;
-        this.visited = new boolean[m][n];
+        this.collected = new boolean[m][n];
     }
 
     @Override
@@ -99,78 +99,6 @@ public class Drone implements IDrone {
     }
 
     @Override
-    public int check(int x, int y) {
-        int collectNewLocation = 0;
-        if (x > this.curX) {
-            for (int i = this.curX + 1; i <= x; i++) {
-                move(i, this.curY, true);
-                if (!visited[curX][curY])
-                    collectNewLocation += shoot(true);
-            }
-        } else if (x < this.curX) {
-            for (int i = this.curX - 1; i >= x; i--) {
-                move(i, this.curY, true);
-                if (!visited[curX][curY])
-                    collectNewLocation += shoot(true);
-            }
-        }
-        if (y > this.curY) {
-            for (int i = this.curY + 1; i <= y; i++) {
-                move(this.curX, i, true);
-                if (!visited[curX][curY])
-                    collectNewLocation += shoot(true);
-            }
-        } else if (y < this.curY) {
-            for (int i = this.curY - 1; i >= y; i--) {
-                move(this.curX, i, true);
-                if (!visited[curX][curY])
-                    collectNewLocation += shoot(true);
-            }
-        }
-        return collectNewLocation;
-    }
-
-    @Override
-    public int checkDraw(int x, int y, char[][] map, char[] message) {
-        int drawRegion = 0;
-        if (x > this.curX) {
-            for (int i = this.curX + 1; i <= x; i++) {
-                move(i, this.curY, false);
-                if (!visited[curX][curY]) {
-                    draw(map, message);
-                    drawRegion++;
-                }
-            }
-        } else if (x < this.curX) {
-            for (int i = this.curX - 1; i >= x; i--) {
-                move(i, this.curY, false);
-                if (!visited[curX][curY]) {
-                    draw(map, message);
-                    drawRegion++;
-                }
-            }
-        }
-        if (y > this.curY) {
-            for (int i = this.curY + 1; i <= y; i++) {
-                move(this.curX, i, false);
-                if (!visited[curX][curY]) {
-                    draw(map, message);
-                    drawRegion++;
-                }
-            }
-        } else if (y < this.curY) {
-            for (int i = this.curY - 1; i >= y; i--) {
-                move(this.curX, i, false);
-                if (!visited[curX][curY]) {
-                    draw(map, message);
-                    drawRegion++;
-                }
-            }
-        }
-        return drawRegion;
-    }
-
-    @Override
     public int shoot(boolean print) {
         StringBuilder stringBuilder = new StringBuilder();
         int collectNewLocation = 0;
@@ -179,9 +107,9 @@ public class Drone implements IDrone {
         for (int i = 0; i < 5; i++) {
             int tempX = this.curX + xChange[i];
             int tempY = this.curY + yChange[i];
-            if (tempX >= 0 && tempX < this.visited.length && tempY >= 0 && tempY < this.visited[0].length) {
-                if (!visited[tempX][tempY]) {
-                    visited[tempX][tempY] = true;
+            if (tempX >= 0 && tempX < this.collected.length && tempY >= 0 && tempY < this.collected[0].length) {
+                if (!collected[tempX][tempY]) {
+                    collected[tempX][tempY] = true;
                     stringBuilder.append(map[tempX][tempY]);
                     collectNewLocation++;
                 } else
@@ -206,7 +134,7 @@ public class Drone implements IDrone {
         for (int i = 0; i < 5; i++) {
             int tempX = this.curX + xChange[i];
             int tempY = this.curY + yChange[i];
-            if (tempX >= 0 && tempX < this.visited.length && tempY >= 0 && tempY < this.visited[0].length) {
+            if (tempX >= 0 && tempX < this.collected.length && tempY >= 0 && tempY < this.collected[0].length) {
                 if (message[i] != '-') {
                     map[tempX][tempY] = message[i];
                     drawRegion++;
@@ -232,7 +160,7 @@ public class Drone implements IDrone {
                 break;
             case SHOOT:
                 IOUtil.outPutMessage("--------------start shoot message----------------", IOUtil.MessageType.SPLICT);
-                IOUtil.outPutMatrix(visited, IOUtil.MessageType.COLLECTION, this.curX, this.curY);
+                IOUtil.outPutMatrix(collected, IOUtil.MessageType.COLLECTION, this.curX, this.curY);
                 IOUtil.outPutMessage(String.format("shoot photo at (%d,%d) , collect %d new area , collect sum %d region", param[0], param[1], param[2], param[3]), IOUtil.MessageType.INFO);
                 IOUtil.outPutMessage("--------------shoot message end----------------", IOUtil.MessageType.SPLICT);
                 break;

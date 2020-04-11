@@ -17,6 +17,7 @@ public interface IDrone {
 
     /**
      * init drone start location
+     *
      * @param startX
      * @param startY
      */
@@ -24,6 +25,7 @@ public interface IDrone {
 
     /**
      * let exist map data input drone
+     *
      * @param data
      * @param m
      * @param n
@@ -39,27 +41,6 @@ public interface IDrone {
      * @return
      */
     int move(int x, int y, boolean print);
-
-    /**
-     * let drone move to (x,y) from current point
-     * and shoot when passing by a new region
-     * return count about how many new region collect
-     *
-     * @param x
-     * @param y
-     * @return
-     */
-    int check(int x, int y);
-
-    /**
-     * same way with check but for draw map
-     *
-     * @param x
-     * @param y
-     * @param map
-     * @param message
-     */
-    int checkDraw(int x, int y, char[][] map, char[] message);
 
     /**
      * take photo at current position

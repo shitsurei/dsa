@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class PathStrategy {
     protected IDrone drone;
 
-    public PathStrategy(IDrone drone) {
+    public void setDrone(IDrone drone) {
         this.drone = drone;
     }
 

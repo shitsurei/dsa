@@ -6,10 +6,6 @@ import java.util.List;
 
 public class SpinPathStrategy extends PathStrategy {
 
-    public SpinPathStrategy(IDrone drone) {
-        super(drone);
-    }
-
     @Override
     public int route() {
         int m = drone.getMap().length, n = drone.getMap()[0].length;

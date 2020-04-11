@@ -86,8 +86,9 @@ public class Drone implements IDrone {
      */
     @Override
     public int move(int x, int y, boolean print) {
-        if (x < 0 || x >= visited.length || y < 0 || y >= visited[0].length)
-            return -1;
+//        drone's move space should not be limited in N * M maps
+//        if (x < 0 || x >= visited.length || y < 0 || y >= visited[0].length)
+//            return -1;
         int feet = Math.abs(x - this.curX) + Math.abs(y - this.curY);
         this.sumFeet += feet;
         if (print)
@@ -173,71 +174,44 @@ public class Drone implements IDrone {
     public int shoot(boolean print) {
         StringBuilder stringBuilder = new StringBuilder();
         int collectNewLocation = 0;
-        if (!visited[this.curX][this.curY]) {
-            visited[this.curX][this.curY] = true;
-            stringBuilder.append(map[this.curX][this.curY]);
-            collectNewLocation++;
-        } else
-            stringBuilder.append('-');
-        if (this.curX - 1 >= 0 && !visited[this.curX - 1][this.curY]) {
-            visited[this.curX - 1][this.curY] = true;
-            stringBuilder.append(map[this.curX - 1][this.curY]);
-            collectNewLocation++;
-        } else
-            stringBuilder.append('-');
-        if (this.curY + 1 < this.visited[0].length && !visited[this.curX][this.curY + 1]) {
-            visited[this.curX][this.curY + 1] = true;
-            stringBuilder.append(map[this.curX][this.curY + 1]);
-            collectNewLocation++;
-        } else
-            stringBuilder.append('-');
-
-        if (this.curX + 1 < this.visited.length && !visited[this.curX + 1][this.curY]) {
-            visited[this.curX + 1][this.curY] = true;
-            stringBuilder.append(map[this.curX + 1][this.curY]);
-            collectNewLocation++;
-        } else
-            stringBuilder.append('-');
-        if (this.curY - 1 >= 0 && !visited[this.curX][this.curY - 1]) {
-            visited[this.curX][this.curY - 1] = true;
-            stringBuilder.append(map[this.curX][this.curY - 1]);
-            collectNewLocation++;
-        } else
-            stringBuilder.append('-');
-        sumRegion += collectNewLocation;
-        data.add(stringBuilder.toString());
-        if (print)
-            this.print(MoveType.SHOOT, this.curX, this.curY, collectNewLocation, sumRegion);
+        int[] xChange = {0, -1, 0, 1, 0};
+        int[] yChange = {0, 0, 1, 0, -1};
+        for (int i = 0; i < 5; i++) {
+            int tempX = this.curX + xChange[i];
+            int tempY = this.curY + yChange[i];
+            if (tempX >= 0 && tempX < this.visited.length && tempY >= 0 && tempY < this.visited[0].length) {
+                if (!visited[tempX][tempY]) {
+                    visited[tempX][tempY] = true;
+                    stringBuilder.append(map[tempX][tempY]);
+                    collectNewLocation++;
+                } else
+                    stringBuilder.append('-');
+            } else
+                stringBuilder.append('-');
+        }
+        if (collectNewLocation > 0) {
+            sumRegion += collectNewLocation;
+            data.add(stringBuilder.toString());
+            if (print)
+                this.print(MoveType.SHOOT, this.curX, this.curY, collectNewLocation, sumRegion);
+        }
         return collectNewLocation;
     }
 
     @Override
     public int draw(char[][] map, char[] message) {
         int drawRegion = 0;
-        if (message[0] != '-') {
-            map[this.curX][this.curY] = message[0];
-            visited[this.curX][this.curY] = true;
-            drawRegion++;
-        }
-        if (message[1] != '-') {
-            map[this.curX - 1][this.curY] = message[1];
-            visited[this.curX - 1][this.curY] = true;
-            drawRegion++;
-        }
-        if (message[2] != '-') {
-            map[this.curX][this.curY + 1] = message[2];
-            visited[this.curX][this.curY + 1] = true;
-            drawRegion++;
-        }
-        if (message[3] != '-') {
-            map[this.curX + 1][this.curY] = message[3];
-            visited[this.curX + 1][this.curY] = true;
-            drawRegion++;
-        }
-        if (message[4] != '-') {
-            map[this.curX][this.curY - 1] = message[4];
-            visited[this.curX][this.curY - 1] = true;
-            drawRegion++;
+        int[] xChange = {0, -1, 0, 1, 0};
+        int[] yChange = {0, 0, 1, 0, -1};
+        for (int i = 0; i < 5; i++) {
+            int tempX = this.curX + xChange[i];
+            int tempY = this.curY + yChange[i];
+            if (tempX >= 0 && tempX < this.visited.length && tempY >= 0 && tempY < this.visited[0].length) {
+                if (message[i] != '-') {
+                    map[tempX][tempY] = message[i];
+                    drawRegion++;
+                }
+            }
         }
         return drawRegion;
     }

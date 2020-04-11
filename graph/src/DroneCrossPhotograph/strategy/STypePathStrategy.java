@@ -24,33 +24,13 @@ public class STypePathStrategy extends PathStrategy {
             int tempX = nextX + xChangeColumn[columnIndex % 2];
             int tempY = nextY + yChangeColumn[columnIndex % 2];
             columnIndex++;
-            if (tempX >= 0 && tempX < m && tempY >= 0 && tempY < n) {
+            if (valuable(tempX, tempY, m, n)) {
                 nextX = tempX;
                 nextY = tempY;
                 drone.move(nextX, nextY, true);
             } else {
-                if (tempX < 0) {
-                    if (nextX != 0) {
-                        drone.move(0, nextY, true);
-                        nextX = 0;
-                        restAll -= drone.shoot(true);
-                    }
-                } else if (tempX >= m) {
-                    if (nextX != m - 1) {
-                        drone.move(m - 1, nextY, true);
-                        nextX = m - 1;
-                        restAll -= drone.shoot(true);
-                    }
-                } else {
-                    finishColumn(nextX, nextY, m, n);
-                    break;
-                }
-                if (restAll == 0)
-                    break;
                 nextX += xChangeRow[rowIndex % 2];
                 nextY += yChangeRow[rowIndex % 2];
-                if (finishColumn(nextX, nextY, m, n))
-                    break;
                 rowIndex++;
                 columnIndex++;
                 xChangeColumn[0] = -xChangeColumn[0];
@@ -59,25 +39,6 @@ public class STypePathStrategy extends PathStrategy {
             }
         }
         return drone.getSumFeet();
-    }
-
-    private boolean finishColumn(int nextX, int nextY, int m, int n) {
-        if (nextY >= n) {
-            if (nextY == n) {
-                if (nextX <= 1) {
-                    drone.move(0, n - 1, true);
-                    drone.check(m - 1, n - 1);
-                    drone.check(m - 1, 0);
-                } else if (nextX >= m - 2) {
-                    drone.move(m - 1, n - 1, true);
-                    drone.check(0, n - 1);
-                    drone.check(0, 0);
-                }
-            }
-            drone.returnStart(true);
-            return true;
-        }
-        return false;
     }
 
     @Override

@@ -18,6 +18,13 @@ public class Main {
         char[] item = new char[m];
         Arrays.fill(item, 'T');
         Arrays.fill(map, item);
+//        char[][] map = new char[][]{
+//                {'R', 'G', 'F', 'F', 'R'},
+//                {'G', 'F', 'F', 'G', 'R'},
+//                {'G', 'R', 'F', 'R', 'F'},
+//                {'G', 'F', 'G', 'F', 'F'},
+//                {'G', 'F', 'F', 'G', 'R'},
+//        };
         testSTypePath(map);
 //        testSpinPath(map);
     }
@@ -32,16 +39,16 @@ public class Main {
         PathStrategy pathStrategy = new SpinPathStrategy(drone);
         int ans = pathStrategy.route();
         IOUtil.outPutMessage(String.format("task finished , use %d feet , shoot %d times", ans, drone.getData().size()), IOUtil.MessageType.INFO);
-        List<String> data = drone.getData();
-        pathStrategy = new SpinPathStrategy(new Drone());
-        char[][] recoverMap = pathStrategy.draw(data, map.length, map[0].length);
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[0].length; j++) {
-                System.out.print(recoverMap[i][j]);
-                System.out.print('\t');
-            }
-            System.out.println();
-        }
+//        List<String> data = drone.getData();
+//        pathStrategy = new SpinPathStrategy(new Drone());
+//        char[][] recoverMap = pathStrategy.draw(data, map.length, map[0].length);
+//        for (int i = 0; i < map.length; i++) {
+//            for (int j = 0; j < map[0].length; j++) {
+//                System.out.print(recoverMap[i][j]);
+//                System.out.print('\t');
+//            }
+//            System.out.println();
+//        }
     }
 
     /**

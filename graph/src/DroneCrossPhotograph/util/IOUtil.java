@@ -9,7 +9,8 @@ public class IOUtil {
         int[][] collectionOutput = new int[collection.length][collection[0].length];
         switch (messageType) {
             case COLLECTION:
-                collectionOutput[param[0]][param[1]] = 2;
+                if (param[0] >= 0 && param[0] < collection.length && param[1] >= 0 && param[1] < collection[0].length)
+                    collectionOutput[param[0]][param[1]] = 2;
                 for (int i = 0; i < collection.length; i++) {
                     for (int j = 0; j < collection[0].length; j++) {
                         if (collection[i][j] && collectionOutput[i][j] != 2) {

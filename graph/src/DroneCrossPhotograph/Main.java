@@ -3,14 +3,16 @@ package DroneCrossPhotograph;
 import DroneCrossPhotograph.drone.Drone;
 import DroneCrossPhotograph.drone.IDrone;
 import DroneCrossPhotograph.strategy.PathStrategy;
+import DroneCrossPhotograph.strategy.SpinPathStrategy;
 import DroneCrossPhotograph.strategy.StrategyFactory;
 import DroneCrossPhotograph.util.IOUtil;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        int m = 50;
+        int m = 40;
         int n = m;
         char[][] map = new char[n][m];
         char[] item = new char[m];
@@ -41,16 +43,17 @@ public class Main {
 
         int ans = pathStrategy.route();
         IOUtil.outPutMessage(String.format("task finished , use %d feet , shoot %d times", ans, drone.getData().size()), IOUtil.MessageType.INFO);
-//        List<String> data = drone.getData();
-//        pathStrategy = new SpinPathStrategy(new Drone());
-//        char[][] recoverMap = pathStrategy.draw(data, map.length, map[0].length);
-//        for (int i = 0; i < map.length; i++) {
-//            for (int j = 0; j < map[0].length; j++) {
-//                System.out.print(recoverMap[i][j]);
-//                System.out.print('\t');
-//            }
-//            System.out.println();
-//        }
+        List<String> data = drone.getData();
+        pathStrategy = new SpinPathStrategy();
+        pathStrategy.setDrone(new Drone());
+        char[][] recoverMap = pathStrategy.draw(data, map.length, map[0].length);
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                System.out.print(recoverMap[i][j]);
+                System.out.print('\t');
+            }
+            System.out.println();
+        }
     }
 
     /**

@@ -37,6 +37,7 @@ public class STypePathStrategy extends PathStrategy {
                 drone.move(nextX, nextY, true);
             }
         }
+        drone.returnStart(true);
         return drone.getSumFeet();
     }
 

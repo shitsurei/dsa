@@ -65,7 +65,7 @@ public class SpinPathStrategy extends PathStrategy {
             }
             drone.move(nextX, nextY, false);
         }
-        drone.returnStart(false);
+        drone.returnStart(true);
         return map;
     }
 

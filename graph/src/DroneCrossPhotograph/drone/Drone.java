@@ -77,18 +77,8 @@ public class Drone implements IDrone {
         this.curY = startY;
     }
 
-    /**
-     * 移动到(x,y)位置，返回移动所需步数
-     *
-     * @param x
-     * @param y
-     * @return
-     */
     @Override
     public int move(int x, int y, boolean print) {
-//        drone's move space should not be limited in N * M maps
-//        if (x < 0 || x >= visited.length || y < 0 || y >= visited[0].length)
-//            return -1;
         int feet = Math.abs(x - this.curX) + Math.abs(y - this.curY);
         this.sumFeet += feet;
         if (print)

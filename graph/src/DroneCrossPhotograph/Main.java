@@ -27,8 +27,8 @@ public class Main {
 //                {'G', 'F', 'F', 'G', 'R'},
 //        };
 //        testMinMovePath(map);
-//        testSTypePath(map);
-        testSpinPath(map);
+        testSTypePath(map);
+//        testSpinPath(map);
     }
 
     /**

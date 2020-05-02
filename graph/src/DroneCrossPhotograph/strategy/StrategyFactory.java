@@ -1,5 +1,10 @@
 package DroneCrossPhotograph.strategy;
 
+import DroneCrossPhotograph.drone.IDrone;
+import DroneCrossPhotograph.util.IOUtil;
+
+import java.util.List;
+
 public class StrategyFactory {
     public enum Strategy {
         SPIN, S_TYPE, MIN_MOVE
@@ -15,9 +20,9 @@ public class StrategyFactory {
         return singleton;
     }
 
-    public synchronized PathStrategy getStrategy(Strategy type) {
+    public synchronized void setStrategy(Strategy type) {
         if (strategy != null)
-            return strategy;
+            return;
         switch (type) {
             case SPIN:
                 strategy = new SpinPathStrategy();
@@ -31,10 +36,30 @@ public class StrategyFactory {
             default:
                 break;
         }
-        return strategy;
+    }
+
+    public int route(IDrone drone) {
+        if (this.strategy == null)
+            try {
+                throw new Exception("drone strategy un-initialize");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return strategy.route(drone);
+    }
+
+    public char[][] draw(List<String> data, int m, int n) {
+        if (this.strategy == null)
+            try {
+                throw new Exception("drone strategy un-initialize");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return strategy.draw(data, m, n);
     }
 
     public void clearStrategy() {
+        IOUtil.outPutMessage("different algorithm apply between method <route> and method <draw> will lead to error", IOUtil.MessageType.WARNING);
         this.strategy = null;
     }
 }

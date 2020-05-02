@@ -1,5 +1,6 @@
 package DroneCrossPhotograph.strategy;
 
+import DroneCrossPhotograph.drone.Drone;
 import DroneCrossPhotograph.drone.IDrone;
 
 import java.util.List;
@@ -7,7 +8,8 @@ import java.util.List;
 public class STypePathStrategy extends PathStrategy {
 
     @Override
-    public int route() {
+    public int route(IDrone drone) {
+        this.setDrone(drone);
         int m = drone.getMap().length, n = drone.getMap()[0].length;
         drone.init(0, 0);
         int nextX = 0, nextY = 0, restAll = m * n;
@@ -40,6 +42,7 @@ public class STypePathStrategy extends PathStrategy {
 
     @Override
     public char[][] draw(List<String> data, int m, int n) {
+        this.drone = new Drone();
         return new char[0][];
     }
 }

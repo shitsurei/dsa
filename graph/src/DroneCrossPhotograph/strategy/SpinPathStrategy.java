@@ -1,5 +1,6 @@
 package DroneCrossPhotograph.strategy;
 
+import DroneCrossPhotograph.drone.Drone;
 import DroneCrossPhotograph.drone.IDrone;
 
 import java.util.List;
@@ -7,7 +8,8 @@ import java.util.List;
 public class SpinPathStrategy extends PathStrategy {
 
     @Override
-    public int route() {
+    public int route(IDrone drone) {
+        this.setDrone(drone);
         int m = drone.getMap().length, n = drone.getMap()[0].length;
         int startX = (m - 1) / 2 - 1, startY = (n - 1) / 2;
         startX = startX < 0 ? 0 : startX;
@@ -37,6 +39,7 @@ public class SpinPathStrategy extends PathStrategy {
 
     @Override
     public char[][] draw(List<String> data, int m, int n) {
+        this.drone = new Drone();
         int dataIndex = 0;
         this.drone.inputData(data, m, n);
         char[][] map = new char[m][n];

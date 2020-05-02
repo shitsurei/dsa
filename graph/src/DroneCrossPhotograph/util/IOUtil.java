@@ -2,7 +2,7 @@ package DroneCrossPhotograph.util;
 
 public class IOUtil {
     public enum MessageType {
-        ERROR, INFO, SPLICT, COLLECTION
+        ERROR, INFO,WARNING, SPLICT, COLLECTION
     }
 
     public static void outPutMatrix(boolean[][] collection, MessageType messageType, Integer... param) {
@@ -32,6 +32,9 @@ public class IOUtil {
                 break;
             case ERROR:
                 stringBuilder.append("[error] ");
+                break;
+            case WARNING:
+                stringBuilder.append("[warning] ");
                 break;
             case SPLICT:
                 break;

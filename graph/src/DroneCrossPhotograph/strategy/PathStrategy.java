@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class PathStrategy {
     protected IDrone drone;
 
-    public void setDrone(IDrone drone) {
+    protected void setDrone(IDrone drone) {
         this.drone = drone;
     }
 
@@ -18,7 +18,7 @@ public abstract class PathStrategy {
      *
      * @return
      */
-    public abstract int route();
+    public abstract int route(IDrone drone);
 
     /**
      * recover a map by data

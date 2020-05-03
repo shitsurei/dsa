@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        int m = 4;
+        int m = 129;
         int n = m;
         char[][] map = new char[n][m];
         char[] item = new char[m];
@@ -27,8 +27,8 @@ public class Main {
 //                {'G', 'F', 'F', 'G', 'R'},
 //        };
 //        testMinMovePath(map);
-        testSTypePath(map);
-//        testSpinPath(map);
+//        testSTypePath(map);
+        testSpinPath(map);
     }
 
     /**
@@ -43,15 +43,15 @@ public class Main {
 
         int ans = factory.route(drone);
         IOUtil.outPutMessage(String.format("task finished , use %d feet , shoot %d times", ans, drone.getData().size()), IOUtil.MessageType.INFO);
-        List<String> data = drone.getData();
-        char[][] recoverMap = factory.draw(data, map.length, map[0].length);
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[0].length; j++) {
-                System.out.print(recoverMap[i][j]);
-                System.out.print('\t');
-            }
-            System.out.println();
-        }
+//        List<String> data = drone.getData();
+//        char[][] recoverMap = factory.draw(data, map.length, map[0].length);
+//        for (int i = 0; i < map.length; i++) {
+//            for (int j = 0; j < map[0].length; j++) {
+//                System.out.print(recoverMap[i][j]);
+//                System.out.print('\t');
+//            }
+//            System.out.println();
+//        }
     }
 
     /**

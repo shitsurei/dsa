@@ -13,8 +13,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        int m = 129;
-        int n = m;
+        int m = 5;
+        int n = 50;
         char[][] map = new char[n][m];
         char[] item = new char[m];
         Arrays.fill(item, 'T');

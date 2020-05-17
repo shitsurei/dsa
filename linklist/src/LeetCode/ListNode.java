@@ -10,4 +10,9 @@ public class ListNode {
     ListNode(int x) {
         val = x;
     }
+
+    @Override
+    public String toString() {
+        return "Node{ " + val + " }  " + next;
+    }
 }
